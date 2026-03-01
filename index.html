@@ -186,3 +186,2279 @@
         }
     </style>
   </head>
+
+    <body>
+    <div class="container">
+        <h1>✨ AI Magic Studio - Free Forever ✨</h1>
+        
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('photo2video', this)">📸 Photo to Video</div>
+            <div class="tab" onclick="switchTab('text2image', this)">🎨 Text to Image</div>
+            <div class="tab" onclick="switchTab('text2video', this)">🎬 Text to Video</div>
+            <div class="tab" onclick="switchTab('passport', this)">🪪 Passport Maker</div>
+            <div class="tab" onclick="switchTab('reduceSize', this)">📦 Reduce KB</div>
+            <div class="tab" onclick="switchTab('signature', this)">✍️ Generate Signature</div>
+            <div class="tab" onclick="switchTab('enhancer', this)">✨ AI Enhancer</div>
+            <div class="tab" onclick="switchTab('resizeCm', this)">📏 Resize CM</div>
+            <div class="tab" onclick="switchTab('increaseSize', this)">📈 Increase KB</div>
+            <div class="tab" onclick="switchTab('resizePixel', this)">🖼️ Resize Pixel</div>
+            <div class="tab" onclick="switchTab('removeBg', this)">🎭 Remove BG</div>
+            <div class="tab" onclick="switchTab('removeObject', this)">🔮 Remove Object</div>
+            <div class="tab" onclick="switchTab('rotate', this)">🔄 Rotate</div>
+            <div class="tab" onclick="switchTab('circleCrop', this)">⭕ Circle Crop</div>
+            <div class="tab" onclick="switchTab('squareCrop', this)">🔲 Square Crop</div>
+            <div class="tab" onclick="switchTab('addText', this)">📝 Add Text</div>
+            <div class="tab" onclick="switchTab('addLogo', this)">🏷️ Add Logo</div>
+            <div class="tab" onclick="switchTab('increaseQuality', this)">✨ Increase Quality</div>
+            <div class="tab" onclick="switchTab('superResolution', this)">🔍 Super Resolution</div>
+            <div class="tab" onclick="switchTab('checkDPI', this)">📊 Check DPI</div>
+        </div>
+
+        <!-- Photo to Video Tab -->
+<div id="photo2video" class="tab-content active">
+    <div class="card">
+        <h2>📸 अपनी फोटो को वीडियो में बदलो</h2>
+        <p style="margin:10px 0;">फोटो अपलोड करो, AI 8 सेकंड का वीडियो बनाएगा</p>
+        
+        <div class="upload-area" onclick="document.getElementById('photoInput').click()">
+            <div style="font-size: 48px;">📤</div>
+            <h3>Click to upload photo</h3>
+            <p style="opacity:0.7;">JPG, PNG supported (max 10MB)</p>
+        </div>
+        <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
+        
+        <div style="margin-top:20px;">
+            <label>वीडियो स्टाइल चुनो:</label>
+            <select id="videoStyle">
+                <option value="cinematic">Cinematic Style</option>
+                <option value="anime">Anime Style</option>
+                <option value="3d">3D Animation</option>
+                <option value="cartoon">Cartoon Style</option>
+            </select>
+        </div>
+        
+        <div style="margin-top:20px;">
+            <label>मूवमेंट टाइप:</label>
+            <select id="movementType">
+                <option value="subtle">Subtle Movement</option>
+                <option value="moderate">Moderate Movement</option>
+                <option value="expressive">Expressive Movement</option>
+            </select>
+        </div>
+        
+        <div style="margin-top:20px;">
+            <button onclick="generateVideoFromPhoto()">🚀 Generate Video</button>
+        </div>
+        
+        <div id="photoResult" class="result-area">
+            <h3>✨ Your Video Ready!</h3>
+            <video id="generatedVideo" controls style="width:100%;"></video>
+            <div class="share-buttons">
+                <button class="share-btn whatsapp" onclick="shareWhatsApp('video')">📱 WhatsApp</button>
+                <button class="share-btn download" onclick="downloadVideo()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="photoLoading" class="loading">
+            <div class="spinner"></div>
+            <p>जादू हो रहा है... 8 सेकंड लगेंगे</p>
+        </div>
+    </div>
+</div>
+
+<!-- Text to Image Tab -->
+<div id="text2image" class="tab-content">
+    <div class="card">
+        <h2>🎨 टेक्स्ट से इमेज बनाओ</h2>
+        <p style="margin:10px 0;">जो लिखोगे वो AI बना देगा</p>
+        
+        <textarea id="imagePrompt" rows="4" placeholder="Example: एक लड़की बारिश में नाच रही है, anime style"></textarea>
+        
+        <div style="margin-top:20px;">
+            <label>इमेज स्टाइल:</label>
+            <select id="imageStyle">
+                <option value="anime">Anime</option>
+                <option value="realistic">Realistic</option>
+                <option value="cartoon">Cartoon</option>
+                <option value="painting">Oil Painting</option>
+            </select>
+        </div>
+        
+        <div style="margin-top:20px;">
+            <label>साइज:</label>
+            <select id="imageSize">
+                <option value="512x512">Square (512x512)</option>
+                <option value="768x512">Landscape (768x512)</option>
+                <option value="512x768">Portrait (512x768)</option>
+            </select>
+        </div>
+        
+        <button onclick="generateImage()">🎨 Generate Image</button>
+        
+        <div id="imageResult" class="result-area">
+            <h3>✨ Your Image Ready!</h3>
+            <img id="generatedImage" style="max-width:100%; border-radius:10px;">
+            <div class="share-buttons">
+                <button class="share-btn whatsapp" onclick="shareWhatsApp('image')">📱 WhatsApp</button>
+                <button class="share-btn download" onclick="downloadImage()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="imageLoading" class="loading">
+            <div class="spinner"></div>
+            <p>इमेज बन रही है... 3 सेकंड</p>
+        </div>
+    </div>
+</div>
+
+<!-- Text to Video Tab -->
+<div id="text2video" class="tab-content">
+    <div class="card">
+        <h2>🎬 टेक्स्ट से वीडियो बनाओ</h2>
+        <p style="margin:10px 0;">8 सेकंड का वीडियो बनेगा</p>
+        
+        <textarea id="videoPrompt" rows="4" placeholder="Example: A girl dancing in rain, cinematic style, slow motion"></textarea>
+        
+        <div style="margin-top:20px;">
+            <label>वीडियो स्टाइल:</label>
+            <select id="textVideoStyle">
+                <option value="cinematic">Cinematic</option>
+                <option value="anime">Anime</option>
+                <option value="3d">3D Animation</option>
+                <option value="realistic">Realistic</option>
+            </select>
+        </div>
+        
+        <div style="margin-top:20px;">
+            <label>मूवमेंट:</label>
+            <select id="textMovementType">
+                <option value="slow">Slow Motion</option>
+                <option value="normal">Normal</option>
+                <option value="fast">Fast</option>
+            </select>
+        </div>
+        
+        <button onclick="generateVideoFromText()">🎬 Generate Video</button>
+        
+        <div id="textVideoResult" class="result-area">
+            <h3>✨ Your Video Ready!</h3>
+            <video id="generatedTextVideo" controls style="width:100%;"></video>
+            <div class="share-buttons">
+                <button class="share-btn whatsapp" onclick="shareWhatsApp('textvideo')">📱 WhatsApp</button>
+                <button class="share-btn download" onclick="downloadTextVideo()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="textVideoLoading" class="loading">
+            <div class="spinner"></div>
+            <p>वीडियो बन रहा है... 10 सेकंड लगेंगे</p>
+        </div>
+    </div>
+    </div>
+
+        <!-- Passport Photo Maker -->
+<div id="passport" class="tab-content">
+    <div class="card">
+        <h2>🪪 Passport Photo Maker</h2>
+        <p style="margin:10px 0;">फोटो अपलोड करो, पासपोर्ट साइज में बदलो</p>
+        
+        <div class="upload-area" onclick="document.getElementById('passportInput').click()">
+            <div style="font-size: 48px;">📸</div>
+            <h3>Click to upload photo</h3>
+        </div>
+        <input type="file" id="passportInput" accept="image/*" style="display:none;" onchange="handlePassportUpload(event)">
+        
+        <div style="margin-top:20px;">
+            <label>पासपोर्ट साइज चुनो:</label>
+            <select id="passportSize">
+                <option value="2x2">2x2 inch (US Passport)</option>
+                <option value="2x2.5">2x2.5 inch (Indian)</option>
+                <option value="35x45">35x45 mm (Visa)</option>
+                <option value="3.5x4.5">3.5x4.5 cm (Standard)</option>
+            </select>
+        </div>
+        
+        <div style="margin-top:20px;">
+            <label>बैकग्राउंड कलर:</label>
+            <select id="passportBg">
+                <option value="white">White</option>
+                <option value="blue">Light Blue</option>
+                <option value="gray">Gray</option>
+                <option value="red">Red</option>
+            </select>
+        </div>
+        
+        <button onclick="makePassportPhoto()">🪪 Generate Passport Photo</button>
+        
+        <div id="passportResult" class="result-area">
+            <h3>✨ Your Passport Photo Ready!</h3>
+            <img id="passportImage" style="max-width:100%; border-radius:10px;">
+            <div class="share-buttons">
+                <button class="share-btn download" onclick="downloadPassport()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="passportLoading" class="loading">
+            <div class="spinner"></div>
+            <p>फोटो बन रही है...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Reduce Image Size in KB -->
+<div id="reduceSize" class="tab-content">
+    <div class="card">
+        <h2>📦 Reduce Image Size in KB</h2>
+        <p style="margin:10px 0;">फोटो का साइज कम करो KB में</p>
+        
+        <div class="upload-area" onclick="document.getElementById('reduceInput').click()">
+            <div style="font-size: 48px;">📉</div>
+            <h3>Click to upload photo</h3>
+        </div>
+        <input type="file" id="reduceInput" accept="image/*" style="display:none;" onchange="handleReduceUpload(event)">
+        
+        <div style="margin-top:20px;">
+            <label>टारगेट साइज (KB):</label>
+            <input type="number" id="targetSize" min="1" max="5000" value="100" placeholder="जितना KB चाहिए">
+        </div>
+        
+        <div style="margin-top:20px;">
+            <label>क्वालिटी (%):</label>
+            <input type="range" id="reduceQuality" min="1" max="100" value="70" oninput="this.nextElementSibling.innerHTML = this.value + '%'">
+            <span>70%</span>
+        </div>
+        
+        <button onclick="reduceImageSize()">📦 Reduce Size</button>
+        
+        <div id="reduceResult" class="result-area">
+            <h3>✨ Reduced Image Ready!</h3>
+            <img id="reducedImage" style="max-width:100%; border-radius:10px;">
+            <p id="sizeInfo" style="margin:10px 0;"></p>
+            <div class="share-buttons">
+                <button class="share-btn download" onclick="downloadReduced()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="reduceLoading" class="loading">
+            <div class="spinner"></div>
+            <p>साइज कम हो रहा है...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Generate Signature -->
+<div id="signature" class="tab-content">
+    <div class="card">
+        <h2>✍️ Generate Signature</h2>
+        <p style="margin:10px 0;">अपना नाम लिखो, सिग्नेचर बन जाएगा</p>
+        
+        <input type="text" id="signatureName" placeholder="अपना नाम लिखो (English में)" style="margin-bottom:10px;">
+        
+        <div style="margin-top:20px;">
+            <label>सिग्नेचर स्टाइल:</label>
+            <select id="signatureStyle">
+                <option value="elegant">Elegant</option>
+                <option value="bold">Bold</option>
+                <option value="cursive">Cursive</option>
+                <option value="professional">Professional</option>
+            </select>
+        </div>
+        
+        <div style="margin-top:20px;">
+            <label>रंग:</label>
+            <input type="color" id="signatureColor" value="#000000">
+        </div>
+        
+        <button onclick="generateSignature()">✍️ Generate Signature</button>
+        
+        <div id="signatureResult" class="result-area">
+            <h3>✨ Your Signature Ready!</h3>
+            <img id="signatureImage" style="max-width:100%; border-radius:10px; background:white; padding:20px;">
+            <div class="share-buttons">
+                <button class="share-btn download" onclick="downloadSignature()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="signatureLoading" class="loading">
+            <div class="spinner"></div>
+            <p>सिग्नेचर बन रहा है...</p>
+        </div>
+    </div>
+</div>
+
+<!-- AI Photo Enhancer -->
+<div id="enhancer" class="tab-content">
+    <div class="card">
+        <h2>✨ AI Photo Enhancer</h2>
+        <p style="margin:10px 0;">फोटो को शार्प और क्लियर बनाओ</p>
+        
+        <div class="upload-area" onclick="document.getElementById('enhancerInput').click()">
+            <div style="font-size: 48px;">✨</div>
+            <h3>Click to upload photo</h3>
+        </div>
+        <input type="file" id="enhancerInput" accept="image/*" style="display:none;" onchange="handleEnhancerUpload(event)">
+        
+        <div style="margin-top:20px;">
+            <label>एन्हांसमेंट लेवल:</label>
+            <select id="enhanceLevel">
+                <option value="2">2x (Normal)</option>
+                <option value="4">4x (HD)</option>
+                <option value="8">8x (Ultra HD)</option>
+            </select>
+        </div>
+        
+        <button onclick="enhancePhoto()">✨ Enhance Photo</button>
+        
+        <div id="enhancerResult" class="result-area">
+            <h3>✨ Enhanced Photo Ready!</h3>
+            <img id="enhancedImage" style="max-width:100%; border-radius:10px;">
+            <div class="share-buttons">
+                <button class="share-btn download" onclick="downloadEnhanced()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="enhancerLoading" class="loading">
+            <div class="spinner"></div>
+            <p>फोटो एन्हांस हो रही है...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Resize Image in Centimetre -->
+<div id="resizeCm" class="tab-content">
+    <div class="card">
+        <h2>📏 Resize Image in Centimetre</h2>
+        <p style="margin:10px 0;">फोटो को सेंटीमीटर में रीसाइज करो</p>
+        
+        <div class="upload-area" onclick="document.getElementById('resizeCmInput').click()">
+            <div style="font-size: 48px;">📐</div>
+            <h3>Click to upload photo</h3>
+        </div>
+        <input type="file" id="resizeCmInput" accept="image/*" style="display:none;" onchange="handleResizeCmUpload(event)">
+        
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <div style="flex:1;">
+                <label>चौड़ाई (cm):</label>
+                <input type="number" id="cmWidth" value="10" min="1" max="100">
+            </div>
+            <div style="flex:1;">
+                <label>ऊंचाई (cm):</label>
+                <input type="number" id="cmHeight" value="15" min="1" max="100">
+            </div>
+        </div>
+        
+        <div style="margin-top:20px;">
+            <label>DPI (Resolution):</label>
+            <select id="cmDPI">
+                <option value="72">72 DPI (Web)</option>
+                <option value="150">150 DPI (Good)</option>
+                <option value="300" selected>300 DPI (Print)</option>
+            </select>
+        </div>
+        
+        <button onclick="resizeInCm()">📏 Resize in CM</button>
+        
+        <div id="resizeCmResult" class="result-area">
+            <h3>✨ Resized Image Ready!</h3>
+            <img id="resizedCmImage" style="max-width:100%; border-radius:10px;">
+            <p id="cmSizeInfo" style="margin:10px 0;"></p>
+            <div class="share-buttons">
+                <button class="share-btn download" onclick="downloadResizedCm()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="resizeCmLoading" class="loading">
+            <div class="spinner"></div>
+            <p>रीसाइज हो रहा है...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Increase Image Size in KB -->
+<div id="increaseSize" class="tab-content">
+    <div class="card">
+        <h2>📈 Increase Image Size in KB</h2>
+        <p style="margin:10px 0;">फोटो का साइज बढ़ाओ KB में</p>
+        
+        <div class="upload-area" onclick="document.getElementById('increaseInput').click()">
+            <div style="font-size: 48px;">📈</div>
+            <h3>Click to upload photo</h3>
+        </div>
+        <input type="file" id="increaseInput" accept="image/*" style="display:none;" onchange="handleIncreaseUpload(event)">
+        
+        <div style="margin-top:20px;">
+            <label>टारगेट साइज (KB):</label>
+            <input type="number" id="increaseTargetSize" min="100" max="10000" value="500" placeholder="जितना KB चाहिए">
+        </div>
+        
+        <div style="margin-top:20px;">
+            <label>क्वालिटी (%):</label>
+            <input type="range" id="increaseQuality" min="50" max="100" value="95" oninput="this.nextElementSibling.innerHTML = this.value + '%'">
+            <span>95%</span>
+        </div>
+        
+        <button onclick="increaseImageSize()">📈 Increase Size</button>
+        
+        <div id="increaseResult" class="result-area">
+            <h3>✨ Increased Image Ready!</h3>
+            <img id="increasedImage" style="max-width:100%; border-radius:10px;">
+            <p id="increaseSizeInfo" style="margin:10px 0;"></p>
+            <div class="share-buttons">
+                <button class="share-btn download" onclick="downloadIncreased()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="increaseLoading" class="loading">
+            <div class="spinner"></div>
+            <p>साइज बढ़ रहा है...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Resize Image Pixel -->
+<div id="resizePixel" class="tab-content">
+    <div class="card">
+        <h2>🖼️ Resize Image in Pixels</h2>
+        <p style="margin:10px 0;">फोटो को पिक्सल में रीसाइज करो</p>
+        
+        <div class="upload-area" onclick="document.getElementById('resizePixelInput').click()">
+            <div style="font-size: 48px;">🖼️</div>
+            <h3>Click to upload photo</h3>
+        </div>
+        <input type="file" id="resizePixelInput" accept="image/*" style="display:none;" onchange="handleResizePixelUpload(event)">
+        
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <div style="flex:1;">
+                <label>चौड़ाई (px):</label>
+                <input type="number" id="pixelWidth" value="800" min="10" max="5000">
+            </div>
+            <div style="flex:1;">
+                <label>ऊंचाई (px):</label>
+                <input type="number" id="pixelHeight" value="600" min="10" max="5000">
+            </div>
+        </div>
+        
+        <div style="margin-top:10px;">
+            <input type="checkbox" id="maintainAspect">
+            <label>Aspect Ratio रखो</label>
+        </div>
+        
+        <button onclick="resizeInPixels()">🖼️ Resize in Pixels</button>
+        
+        <div id="resizePixelResult" class="result-area">
+            <h3>✨ Resized Image Ready!</h3>
+            <img id="resizedPixelImage" style="max-width:100%; border-radius:10px;">
+            <p id="pixelSizeInfo" style="margin:10px 0;"></p>
+            <div class="share-buttons">
+                <button class="share-btn download" onclick="downloadResizedPixel()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="resizePixelLoading" class="loading">
+            <div class="spinner"></div>
+            <p>रीसाइज हो रहा है...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Remove Background -->
+<div id="removeBg" class="tab-content">
+    <div class="card">
+        <h2>🎭 Remove Background</h2>
+        <p style="margin:10px 0;">फोटो से बैकग्राउंड हटाओ</p>
+        
+        <div class="upload-area" onclick="document.getElementById('removeBgInput').click()">
+            <div style="font-size: 48px;">🎭</div>
+            <h3>Click to upload photo</h3>
+        </div>
+        <input type="file" id="removeBgInput" accept="image/*" style="display:none;" onchange="handleRemoveBgUpload(event)">
+        
+        <div style="margin-top:20px;">
+            <label>नया बैकग्राउंड:</label>
+            <select id="newBackground">
+                <option value="transparent">Transparent</option>
+                <option value="white">White</option>
+                <option value="blue">Blue</option>
+                <option value="custom">Custom Color</option>
+            </select>
+        </div>
+        
+        <div id="customBgColorDiv" style="display:none; margin-top:10px;">
+            <label>रंग चुनो:</label>
+            <input type="color" id="customBgColor" value="#ffffff">
+        </div>
+        
+        <button onclick="removeBackground()">🎭 Remove Background</button>
+        
+        <div id="removeBgResult" class="result-area">
+            <h3>✨ Image Ready!</h3>
+            <img id="removedBgImage" style="max-width:100%; border-radius:10px;">
+            <div class="share-buttons">
+                <button class="share-btn download" onclick="downloadRemovedBg()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="removeBgLoading" class="loading">
+            <div class="spinner"></div>
+            <p>बैकग्राउंड हट रहा है...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Remove Object from Photo -->
+<div id="removeObject" class="tab-content">
+    <div class="card">
+        <h2>🔮 Remove Object from Photo</h2>
+        <p style="margin:10px 0;">फोटो से ऑब्जेक्ट हटाओ</p>
+        
+        <div class="upload-area" onclick="document.getElementById('removeObjectInput').click()">
+            <div style="font-size: 48px;">🔮</div>
+            <h3>Click to upload photo</h3>
+        </div>
+        <input type="file" id="removeObjectInput" accept="image/*" style="display:none;" onchange="handleRemoveObjectUpload(event)">
+        
+        <div style="margin-top:20px;">
+            <label>क्या हटाना है बताओ:</label>
+            <input type="text" id="objectToRemove" placeholder="Example: person, car, tree" style="margin-bottom:10px;">
+        </div>
+        
+        <div style="margin-top:10px;">
+            <p>या फिर इमेज पर क्लिक करके ऑब्जेक्ट सेलेक्ट करो:</p>
+            <canvas id="objectCanvas" style="max-width:100%; border-radius:10px; display:none;"></canvas>
+        </div>
+        
+        <button onclick="removeObject()">🔮 Remove Object</button>
+        
+        <div id="removeObjectResult" class="result-area">
+            <h3>✨ Image Ready!</h3>
+            <img id="removedObjectImage" style="max-width:100%; border-radius:10px;">
+            <div class="share-buttons">
+                <button class="share-btn download" onclick="downloadRemovedObject()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="removeObjectLoading" class="loading">
+            <div class="spinner"></div>
+            <p>ऑब्जेक्ट हट रहा है...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Rotate Image -->
+<div id="rotate" class="tab-content">
+    <div class="card">
+        <h2>🔄 Rotate Image</h2>
+        <p style="margin:10px 0;">फोटो घुमाओ</p>
+        
+        <div class="upload-area" onclick="document.getElementById('rotateInput').click()">
+            <div style="font-size: 48px;">🔄</div>
+            <h3>Click to upload photo</h3>
+        </div>
+        <input type="file" id="rotateInput" accept="image/*" style="display:none;" onchange="handleRotateUpload(event)">
+        
+        <div style="margin-top:20px;">
+            <label>रोटेशन एंगल:</label>
+            <input type="range" id="rotateAngle" min="0" max="360" value="0" oninput="this.nextElementSibling.innerHTML = this.value + '°'">
+            <span>0°</span>
+        </div>
+        
+        <div style="display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;">
+            <button onclick="rotateLeft()">↪️ Left 90°</button>
+            <button onclick="rotateRight()">↩️ Right 90°</button>
+            <button onclick="flipHorizontal()">🔄 Flip Horizontal</button>
+            <button onclick="flipVertical()">🔄 Flip Vertical</button>
+        </div>
+        
+        <button onclick="applyRotation()" style="margin-top:10px;">🔄 Apply Rotation</button>
+        
+        <div id="rotateResult" class="result-area">
+            <h3>✨ Rotated Image Ready!</h3>
+            <img id="rotatedImage" style="max-width:100%; border-radius:10px;">
+            <div class="share-buttons">
+                <button class="share-btn download" onclick="downloadRotated()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="rotateLoading" class="loading">
+            <div class="spinner"></div>
+            <p>इमेज घूम रही है...</p>
+        </div>
+    </div>
+            </div>
+
+        <!-- Circle Crop -->
+<div id="circleCrop" class="tab-content">
+    <div class="card">
+        <h2>⭕ Circle Crop</h2>
+        <p style="margin:10px 0;">फोटो को गोल आकार में काटो</p>
+        
+        <div class="upload-area" onclick="document.getElementById('circleCropInput').click()">
+            <div style="font-size: 48px;">⭕</div>
+            <h3>Click to upload photo</h3>
+        </div>
+        <input type="file" id="circleCropInput" accept="image/*" style="display:none;" onchange="handleCircleCropUpload(event)">
+        
+        <div style="margin-top:20px;">
+            <label>बैकग्राउंड कलर:</label>
+            <select id="circleBgColor">
+                <option value="transparent">Transparent</option>
+                <option value="white">White</option>
+                <option value="black">Black</option>
+                <option value="custom">Custom Color</option>
+            </select>
+        </div>
+        
+        <div id="circleCustomBgDiv" style="display:none; margin-top:10px;">
+            <input type="color" id="circleCustomColor" value="#ffffff">
+        </div>
+        
+        <div style="margin-top:20px;">
+            <label>सर्कल साइज (%):</label>
+            <input type="range" id="circleSize" min="50" max="100" value="90" oninput="this.nextElementSibling.innerHTML = this.value + '%'">
+            <span>90%</span>
+        </div>
+        
+        <button onclick="circleCrop()">⭕ Circle Crop</button>
+        
+        <div id="circleCropResult" class="result-area">
+            <h3>✨ Circle Cropped Image Ready!</h3>
+            <img id="circleCroppedImage" style="max-width:100%; border-radius:10px;">
+            <div class="share-buttons">
+                <button class="share-btn download" onclick="downloadCircleCropped()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="circleCropLoading" class="loading">
+            <div class="spinner"></div>
+            <p>सर्कल क्रॉप हो रहा है...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Square Crop -->
+<div id="squareCrop" class="tab-content">
+    <div class="card">
+        <h2>🔲 Square Crop</h2>
+        <p style="margin:10px 0;">फोटो को चौकोर आकार में काटो</p>
+        
+        <div class="upload-area" onclick="document.getElementById('squareCropInput').click()">
+            <div style="font-size: 48px;">🔲</div>
+            <h3>Click to upload photo</h3>
+        </div>
+        <input type="file" id="squareCropInput" accept="image/*" style="display:none;" onchange="handleSquareCropUpload(event)">
+        
+        <div style="margin-top:20px;">
+            <label>स्क्वायर साइज (px):</label>
+            <select id="squareSize">
+                <option value="500">500 x 500</option>
+                <option value="800">800 x 800</option>
+                <option value="1000">1000 x 1000</option>
+                <option value="1500">1500 x 1500</option>
+                <option value="custom">Custom</option>
+            </select>
+        </div>
+        
+        <div id="customSquareDiv" style="display:none; margin-top:10px;">
+            <input type="number" id="customSquareSize" placeholder="Size in pixels" min="100" max="5000" value="1000">
+        </div>
+        
+        <div style="margin-top:20px;">
+            <label>पोजीशन:</label>
+            <select id="squarePosition">
+                <option value="center">Center</option>
+                <option value="top">Top</option>
+                <option value="bottom">Bottom</option>
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+            </select>
+        </div>
+        
+        <button onclick="squareCrop()">🔲 Square Crop</button>
+        
+        <div id="squareCropResult" class="result-area">
+            <h3>✨ Square Cropped Image Ready!</h3>
+            <img id="squareCroppedImage" style="max-width:100%; border-radius:10px;">
+            <div class="share-buttons">
+                <button class="share-btn download" onclick="downloadSquareCropped()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="squareCropLoading" class="loading">
+            <div class="spinner"></div>
+            <p>स्क्वायर क्रॉप हो रहा है...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Add Text to Image -->
+<div id="addText" class="tab-content">
+    <div class="card">
+        <h2>📝 Add Text to Image</h2>
+        <p style="margin:10px 0;">फोटो पर टेक्स्ट लिखो</p>
+        
+        <div class="upload-area" onclick="document.getElementById('addTextInput').click()">
+            <div style="font-size: 48px;">📝</div>
+            <h3>Click to upload photo</h3>
+        </div>
+        <input type="file" id="addTextInput" accept="image/*" style="display:none;" onchange="handleAddTextUpload(event)">
+        
+        <div style="margin-top:20px;">
+            <input type="text" id="textToAdd" placeholder="जो टेक्स्ट लिखना है" style="margin-bottom:10px;">
+        </div>
+        
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <div style="flex:1;">
+                <label>फॉन्ट साइज:</label>
+                <input type="number" id="textFontSize" value="40" min="10" max="200">
+            </div>
+            <div style="flex:1;">
+                <label>रंग:</label>
+                <input type="color" id="textColor" value="#ffffff">
+            </div>
+        </div>
+        
+        <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+            <div style="flex:1;">
+                <label>X पोजीशन:</label>
+                <input type="range" id="textX" min="0" max="100" value="50" oninput="this.nextElementSibling.innerHTML = this.value + '%'">
+                <span>50%</span>
+            </div>
+            <div style="flex:1;">
+                <label>Y पोजीशन:</label>
+                <input type="range" id="textY" min="0" max="100" value="50" oninput="this.nextElementSibling.innerHTML = this.value + '%'">
+                <span>50%</span>
+            </div>
+        </div>
+        
+        <div style="margin-top:10px;">
+            <label>फॉन्ट स्टाइल:</label>
+            <select id="textFont">
+                <option value="Arial">Arial</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Courier New">Courier New</option>
+                <option value="Verdana">Verdana</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Comic Sans MS">Comic Sans MS</option>
+            </select>
+        </div>
+        
+        <button onclick="addTextToImage()">📝 Add Text</button>
+        
+        <div id="addTextResult" class="result-area">
+            <h3>✨ Image with Text Ready!</h3>
+            <img id="textAddedImage" style="max-width:100%; border-radius:10px;">
+            <div class="share-buttons">
+                <button class="share-btn download" onclick="downloadTextAdded()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="addTextLoading" class="loading">
+            <div class="spinner"></div>
+            <p>टेक्स्ट जुड़ रहा है...</p>
+        </div>
+    </div>
+</div>
+
+        <!-- Add Logo to Image -->
+<div id="addLogo" class="tab-content">
+    <div class="card">
+        <h2>🏷️ Add Logo to Image</h2>
+        <p style="margin:10px 0;">फोटो पर लोगो लगाओ</p>
+        
+        <div class="upload-area" onclick="document.getElementById('mainImageInput').click()" style="margin-bottom:10px;">
+            <div style="font-size: 48px;">🖼️</div>
+            <h3>मुख्य फोटो अपलोड करो</h3>
+        </div>
+        <input type="file" id="mainImageInput" accept="image/*" style="display:none;" onchange="handleMainImageUpload(event)">
+        
+        <div class="upload-area" onclick="document.getElementById('logoImageInput').click()">
+            <div style="font-size: 48px;">🏷️</div>
+            <h3>लोगो फोटो अपलोड करो</h3>
+        </div>
+        <input type="file" id="logoImageInput" accept="image/*" style="display:none;" onchange="handleLogoUpload(event)">
+        
+        <div style="margin-top:20px;">
+            <label>लोगो पोजीशन:</label>
+            <select id="logoPosition">
+                <option value="top-left">Top Left</option>
+                <option value="top-right">Top Right</option>
+                <option value="bottom-left">Bottom Left</option>
+                <option value="bottom-right">Bottom Right</option>
+                <option value="center">Center</option>
+            </select>
+        </div>
+        
+        <div style="margin-top:20px;">
+            <label>लोगो साइज (%):</label>
+            <input type="range" id="logoSizes" min="5" max="50" value="20" oninput="this.nextElementSibling.innerHTML = this.value + '%'">
+            <span>20%</span>
+        </div>
+        
+        <div style="margin-top:20px;">
+            <label>ओपेसिटी (%):</label>
+            <input type="range" id="logoOpacity" min="10" max="100" value="100" oninput="this.nextElementSibling.innerHTML = this.value + '%'">
+            <span>100%</span>
+        </div>
+        
+        <button onclick="addLogoToImage()">🏷️ Add Logo</button>
+        
+        <div id="addLogoResult" class="result-area">
+            <h3>✨ Image with Logo Ready!</h3>
+            <img id="logoAddedImage" style="max-width:100%; border-radius:10px;">
+            <div class="share-buttons">
+                <button class="share-btn download" onclick="downloadLogoAdded()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="addLogoLoading" class="loading">
+            <div class="spinner"></div>
+            <p>लोगो जुड़ रहा है...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Increase Image Quality -->
+<div id="increaseQuality" class="tab-content">
+    <div class="card">
+        <h2>✨ Increase Image Quality</h2>
+        <p style="margin:10px 0;">फोटो की क्वालिटी बढ़ाओ</p>
+        
+        <div class="upload-area" onclick="document.getElementById('qualityInput').click()">
+            <div style="font-size: 48px;">✨</div>
+            <h3>Click to upload photo</h3>
+        </div>
+        <input type="file" id="qualityInput" accept="image/*" style="display:none;" onchange="handleQualityUpload(event)">
+        
+        <div style="margin-top:20px;">
+            <label>क्वालिटी लेवल:</label>
+            <select id="qualityLevel">
+                <option value="80">Normal (80%)</option>
+                <option value="90">Good (90%)</option>
+                <option value="95">High (95%)</option>
+                <option value="100">Maximum (100%)</option>
+            </select>
+        </div>
+        
+        <div style="margin-top:20px;">
+            <label>शार्पनेस:</label>
+            <input type="range" id="sharpnessLevel" min="0" max="2" step="0.1" value="1" oninput="this.nextElementSibling.innerHTML = this.value + 'x'">
+            <span>1x</span>
+        </div>
+        
+        <button onclick="increaseImageQuality()">✨ Increase Quality</button>
+        
+        <div id="qualityResult" class="result-area">
+            <h3>✨ High Quality Image Ready!</h3>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <div style="flex:1;">
+                    <p>Before</p>
+                    <img id="qualityBeforeImage" style="max-width:100%; border-radius:10px;">
+                </div>
+                <div style="flex:1;">
+                    <p>After</p>
+                    <img id="qualityAfterImage" style="max-width:100%; border-radius:10px;">
+                </div>
+            </div>
+            <p id="qualityInfo" style="margin:10px 0;"></p>
+            <div class="share-buttons">
+                <button class="share-btn download" onclick="downloadQualityImage()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="qualityLoading" class="loading">
+            <div class="spinner"></div>
+            <p>क्वालिटी बढ़ रही है...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Super Resolution -->
+<div id="superResolution" class="tab-content">
+    <div class="card">
+        <h2>🔍 Super Resolution</h2>
+        <p style="margin:10px 0;">फोटो को 4x ज्यादा क्लियर बनाओ</p>
+        
+        <div class="upload-area" onclick="document.getElementById('superResInput').click()">
+            <div style="font-size: 48px;">🔍</div>
+            <h3>Click to upload photo</h3>
+        </div>
+        <input type="file" id="superResInput" accept="image/*" style="display:none;" onchange="handleSuperResUpload(event)">
+        
+        <div style="margin-top:20px;">
+            <label>अपस्केल फैक्टर:</label>
+            <select id="upscaleFactor">
+                <option value="2">2x (HD)</option>
+                <option value="4">4x (Ultra HD)</option>
+                <option value="8">8x (Maximum)</option>
+            </select>
+        </div>
+        
+        <div style="margin-top:20px;">
+            <label>AI मोड:</label>
+            <select id="aiMode">
+                <option value="realistic">Realistic</option>
+                <option value="anime">Anime</option>
+                <option value="general">General</option>
+            </select>
+        </div>
+        
+        <button onclick="superResolution()">🔍 Enhance with AI</button>
+        
+        <div id="superResResult" class="result-area">
+            <h3>✨ Super Resolution Image Ready!</h3>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <div style="flex:1;">
+                    <p>Original (<span id="originalWidth">0</span>x<span id="originalHeight">0</span>)</p>
+                    <img id="superResOriginalImage" style="max-width:100%; border-radius:10px;">
+                </div>
+                <div style="flex:1;">
+                    <p>Enhanced (<span id="newWidth">0</span>x<span id="newHeight">0</span>)</p>
+                    <img id="superResEnhancedImage" style="max-width:100%; border-radius:10px;">
+                </div>
+            </div>
+            <div class="share-buttons">
+                <button class="share-btn download" onclick="downloadSuperRes()">⬇️ Download</button>
+            </div>
+        </div>
+        
+        <div id="superResLoading" class="loading">
+            <div class="spinner"></div>
+            <p>AI सुपर रेजोल्यूशन काम कर रहा है...</p>
+        </div>
+    </div>
+</div>
+
+            <!-- Check Image DPI -->
+    <div id="checkDPI" class="tab-content">
+        <div class="card">
+            <h2>📊 Check Image DPI</h2>
+            <p style="margin:10px 0;">फोटो का DPI चेक करो</p>
+            
+            <div class="upload-area" onclick="document.getElementById('dpiInput').click()">
+                <div style="font-size: 48px;">📊</div>
+                <h3>Click to upload photo</h3>
+            </div>
+            <input type="file" id="dpiInput" accept="image/*" style="display:none;" onchange="handleDPIUpload(event)">
+            
+            <div id="dpiResult" class="result-area">
+                <h3>📊 DPI Information</h3>
+                <div style="background:rgba(0,0,0,0.3); padding:20px; border-radius:10px;">
+                    <p id="dpiInfo"></p>
+                    <p id="dimensionInfo"></p>
+                    <p id="sizeInfo"></p>
+                    <p id="printSizeInfo"></p>
+                </div>
+                
+                <div style="margin-top:20px;">
+                    <label>नया DPI सेट करो:</label>
+                    <input type="number" id="newDPI" value="300" min="72" max="1200">
+                    <button onclick="changeDPI()" style="margin-top:10px;">📊 Change DPI</button>
+                </div>
+            </div>
+            
+            <div id="dpiChangedResult" class="result-area">
+                <h3>✨ DPI Changed!</h3>
+                <img id="dpiChangedImage" style="max-width:100%; border-radius:10px;">
+                <p id="newDPIInfo"></p>
+                <div class="share-buttons">
+                    <button class="share-btn download" onclick="downloadDPIChanged()">⬇️ Download</button>
+                </div>
+            </div>
+            
+            <div id="dpiLoading" class="loading">
+                <div class="spinner"></div>
+                <p>DPI चेक हो रहा है...</p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+        <!-- Download Progress -->
+<div id="downloadProgress" class="download-progress">
+    <div class="spinner" style="width:30px; height:30px;"></div>
+    <p style="margin-top:10px;">Download हो रहा है...</p>
+</div>
+
+<!-- Success Message -->
+<div id="successMessage" class="success-message">
+    ✅ Download Complete!
+</div>
+
+        // 🔥 YOUR HUGGING FACE TOKEN
+const HF_TOKEN = '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';
+
+// Tab Switching
+function switchTab(tabName, element) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    
+    element.classList.add('active');
+    document.getElementById(tabName).classList.add('active');
+}
+
+// Photo to Video Variables
+let uploadedPhoto = null;
+
+function handlePhotoUpload(event) {
+    uploadedPhoto = event.target.files[0];
+    if (uploadedPhoto) {
+        alert('✅ Photo uploaded! Now click Generate Video');
+    }
+}
+
+        // ============================================
+// 🔥 SAFE DOWNLOAD FUNCTION (FIXED FOR MOBILE)
+// ============================================
+async function safeDownload(imageSrc, fileName) {
+    try {
+        // Show progress
+        document.getElementById('downloadProgress').classList.add('show');
+        
+        // Create a new image element
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        
+        await new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = imageSrc;
+        });
+        
+        // Create canvas
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        
+        // Convert to blob
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.9));
+        
+        // Create download link
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        
+        // Trigger download
+        document.body.appendChild(link);
+        link.click();
+        
+        // Cleanup
+        setTimeout(() => {
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+            document.getElementById('downloadProgress').classList.remove('show');
+            
+            // Show success message
+            const successMsg = document.getElementById('successMessage');
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 2000);
+        }, 100);
+        
+    } catch (error) {
+        alert('Download failed: ' + error.message);
+        document.getElementById('downloadProgress').classList.remove('show');
+    }
+}
+
+        // ============================================
+// 🔥 UPDATED DOWNLOAD FUNCTIONS - PART 1
+// ============================================
+function downloadVideo() {
+    const video = document.getElementById('generatedVideo');
+    safeDownload(video.src, 'ai-video.mp4');
+}
+
+function downloadImage() {
+    const img = document.getElementById('generatedImage');
+    safeDownload(img.src, 'ai-image.png');
+}
+
+function downloadTextVideo() {
+    const video = document.getElementById('generatedTextVideo');
+    safeDownload(video.src, 'ai-text-video.mp4');
+}
+
+function downloadPassport() {
+    const img = document.getElementById('passportImage');
+    safeDownload(img.src, 'passport-photo.jpg');
+}
+
+function downloadReduced() {
+    const img = document.getElementById('reducedImage');
+    safeDownload(img.src, 'reduced-image.jpg');
+}
+
+function downloadSignature() {
+    const img = document.getElementById('signatureImage');
+    safeDownload(img.src, 'signature.png');
+}
+
+function downloadEnhanced() {
+    const img = document.getElementById('enhancedImage');
+    safeDownload(img.src, 'enhanced-image.jpg');
+}
+
+        // ============================================
+// 🔥 UPDATED DOWNLOAD FUNCTIONS - PART 3
+// ============================================
+function downloadCircleCropped() {
+    const img = document.getElementById('circleCroppedImage');
+    safeDownload(img.src, 'circle-cropped.png');
+}
+
+function downloadSquareCropped() {
+    const img = document.getElementById('squareCroppedImage');
+    safeDownload(img.src, 'square-cropped.jpg');
+}
+
+function downloadTextAdded() {
+    const img = document.getElementById('textAddedImage');
+    safeDownload(img.src, 'text-added.jpg');
+}
+
+function downloadLogoAdded() {
+    const img = document.getElementById('logoAddedImage');
+    safeDownload(img.src, 'logo-added.jpg');
+}
+
+function downloadQualityImage() {
+    const img = document.getElementById('qualityAfterImage');
+    safeDownload(img.src, 'high-quality.jpg');
+}
+
+function downloadSuperRes() {
+    const img = document.getElementById('superResEnhancedImage');
+    safeDownload(img.src, 'super-resolution.jpg');
+}
+
+function downloadDPIChanged() {
+    const img = document.getElementById('dpiChangedImage');
+    safeDownload(img.src, 'dpi-changed.jpg');
+}
+
+        // ============================================
+// 🔥 PHOTO TO VIDEO - FREE API
+// ============================================
+async function generateVideoFromPhoto() {
+    if (!uploadedPhoto) {
+        alert('❌ Pehle photo upload karo!');
+        return;
+    }
+    
+    document.getElementById('photoLoading').style.display = 'block';
+    document.getElementById('photoResult').classList.remove('show');
+    
+    const style = document.getElementById('videoStyle').value;
+    const movement = document.getElementById('movementType').value;
+    
+    try {
+        // Convert photo to base64
+        const base64 = await fileToBase64(uploadedPhoto);
+        
+        // FREE API - Hugging Face with your token
+        const response = await fetch('https://api-inference.huggingface.co/models/Skywork/SkyReels-V3', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${HF_TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                inputs: base64,
+                parameters: {
+                    style: style,
+                    movement: movement,
+                    duration: 8
+                }
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error('API Error: ' + response.status);
+        }
+        
+        const videoBlob = await response.blob();
+        const videoUrl = URL.createObjectURL(videoBlob);
+        
+        document.getElementById('generatedVideo').src = videoUrl;
+        document.getElementById('photoResult').classList.add('show');
+        
+    } catch (error) {
+        alert('❌ Error: ' + error.message + '\nTry again in few seconds');
+        console.error(error);
+    } finally {
+        document.getElementById('photoLoading').style.display = 'none';
+    }
+}
+
+// ============================================
+// 🔥 TEXT TO IMAGE - FREE API
+// ============================================
+async function generateImage() {
+    const prompt = document.getElementById('imagePrompt').value;
+    if (!prompt) {
+        alert('❌ Kuch likho pehle!');
+        return;
+    }
+    
+    document.getElementById('imageLoading').style.display = 'block';
+    document.getElementById('imageResult').classList.remove('show');
+    
+    try {
+        // FREE API - Pollinations.ai (No token needed)
+        const response = await fetch(`https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=512&height=512&model=flux&nologo=true`);
+        
+        const imageBlob = await response.blob();
+        const imageUrl = URL.createObjectURL(imageBlob);
+        
+        document.getElementById('generatedImage').src = imageUrl;
+        document.getElementById('imageResult').classList.add('show');
+        
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    } finally {
+        document.getElementById('imageLoading').style.display = 'none';
+    }
+}
+
+// ============================================
+// 🔥 TEXT TO VIDEO - FREE API
+// ============================================
+async function generateVideoFromText() {
+    const prompt = document.getElementById('videoPrompt').value;
+    if (!prompt) {
+        alert('❌ Kuch likho pehle!');
+        return;
+    }
+    
+    document.getElementById('textVideoLoading').style.display = 'block';
+    document.getElementById('textVideoResult').classList.remove('show');
+    
+    try {
+        // FREE API - Using Hugging Face with your token
+        const response = await fetch('https://api-inference.huggingface.co/models/veo3/wan2.1-14b', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${HF_TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                inputs: prompt,
+                parameters: {
+                    duration: 8
+                }
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error('API Error: ' + response.status);
+        }
+        
+        const videoBlob = await response.blob();
+        const videoUrl = URL.createObjectURL(videoBlob);
+        
+        document.getElementById('generatedTextVideo').src = videoUrl;
+        document.getElementById('textVideoResult').classList.add('show');
+        
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    } finally {
+        document.getElementById('textVideoLoading').style.display = 'none';
+    }
+}
+
+        // ============================================
+// 🔥 HELPER FUNCTIONS
+// ============================================
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = error => reject(error);
+    });
+}
+
+// WhatsApp Share
+function shareWhatsApp(type) {
+    let message = '';
+    if (type === 'image') {
+        message = '🔥 मैंने AI से ये इमेज बनाई है!';
+    } else {
+        message = '🔥 मैंने AI से ये वीडियो बनाया है!';
+    }
+    
+    const shareUrl = `https://wa.me/?text=${encodeURIComponent(message + ' ' + window.location.href)}`;
+    window.open(shareUrl, '_blank');
+}
+
+// ============================================
+// 🔥 VARIABLES FOR NEW FEATURES
+// ============================================
+let passportPhoto = null;
+let reduceImage = null;
+let enhancerImage = null;
+let resizeCmImage = null;
+let increaseImage = null;
+let resizePixelImage = null;
+let removeBgImage = null;
+let removeObjectImage = null;
+let rotateImage = null;
+let currentAngle = 0;
+let currentFlipH = false;
+let currentFlipV = false;
+let originalImageData = null;
+let circleCropImage = null;
+let squareCropImage = null;
+let addTextImage = null;
+let mainImage = null;
+let logoImage = null;
+let qualityImage = null;
+let superResImage = null;
+let dpiImage = null;
+
+        // ============================================
+// 🔥 PASSPORT PHOTO MAKER
+// ============================================
+function handlePassportUpload(event) {
+    passportPhoto = event.target.files[0];
+    if (passportPhoto) alert('✅ Photo uploaded! Now select size and generate');
+}
+
+async function makePassportPhoto() {
+    if (!passportPhoto) {
+        alert('❌ Pehle photo upload karo!');
+        return;
+    }
+    
+    document.getElementById('passportLoading').style.display = 'block';
+    document.getElementById('passportResult').classList.remove('show');
+    
+    const size = document.getElementById('passportSize').value;
+    const bgColor = document.getElementById('passportBg').value;
+    
+    try {
+        const img = await loadImage(passportPhoto);
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        if (size === '2x2') { width = 600; height = 600; }
+        else if (size === '2x2.5') { width = 600; height = 750; }
+        else if (size === '35x45') { width = 413; height = 531; }
+        else { width = 413; height = 531; }
+        
+        canvas.width = width;
+        canvas.height = height;
+        
+        // Background color
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0, 0, width, height);
+        
+        // Draw image (centered, maintaining aspect ratio)
+        const imgRatio = img.width / img.height;
+        const canvasRatio = width / height;
+        let drawWidth, drawHeight, drawX, drawY;
+        
+        if (imgRatio > canvasRatio) {
+            drawHeight = height;
+            drawWidth = img.width * (height / img.height);
+            drawX = (width - drawWidth) / 2;
+            drawY = 0;
+        } else {
+            drawWidth = width;
+            drawHeight = img.height * (width / img.width);
+            drawX = 0;
+            drawY = (height - drawHeight) / 2;
+        }
+        
+        ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+        
+        document.getElementById('passportImage').src = canvas.toDataURL('image/jpeg', 0.9);
+        document.getElementById('passportResult').classList.add('show');
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    } finally {
+        document.getElementById('passportLoading').style.display = 'none';
+    }
+}
+
+// ============================================
+// 🔥 REDUCE IMAGE SIZE
+// ============================================
+function handleReduceUpload(event) {
+    reduceImage = event.target.files[0];
+    if (reduceImage) alert('✅ Photo uploaded! Now reduce size');
+}
+
+async function reduceImageSize() {
+    if (!reduceImage) {
+        alert('❌ Pehle photo upload karo!');
+        return;
+    }
+    
+    document.getElementById('reduceLoading').style.display = 'block';
+    document.getElementById('reduceResult').classList.remove('show');
+    
+    const targetSize = parseInt(document.getElementById('targetSize').value) * 1024;
+    const quality = parseInt(document.getElementById('reduceQuality').value) / 100;
+    
+    try {
+        const img = await loadImage(reduceImage);
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        canvas.getContext('2d').drawImage(img, 0, 0);
+        
+        let currentQuality = quality;
+        let resultBlob;
+        
+        // Try different qualities to get target size
+        for (let i = 0; i < 5; i++) {
+            resultBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', currentQuality));
+            if (resultBlob.size <= targetSize || currentQuality <= 0.1) break;
+            currentQuality -= 0.1;
+        }
+        
+        const resultUrl = URL.createObjectURL(resultBlob);
+        
+        document.getElementById('reducedImage').src = resultUrl;
+        document.getElementById('sizeInfo').innerHTML = 
+            `Original: ${(reduceImage.size / 1024).toFixed(2)} KB<br>New: ${(resultBlob.size / 1024).toFixed(2)} KB`;
+        document.getElementById('reduceResult').classList.add('show');
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    } finally {
+        document.getElementById('reduceLoading').style.display = 'none';
+    }
+}
+
+// ============================================
+// 🔥 GENERATE SIGNATURE
+// ============================================
+async function generateSignature() {
+    const name = document.getElementById('signatureName').value;
+    if (!name) {
+        alert('❌ Apna naam likho!');
+        return;
+    }
+    
+    document.getElementById('signatureLoading').style.display = 'block';
+    document.getElementById('signatureResult').classList.remove('show');
+    
+    const style = document.getElementById('signatureStyle').value;
+    const color = document.getElementById('signatureColor').value;
+    
+    try {
+        const canvas = document.createElement('canvas');
+        canvas.width = 800;
+        canvas.height = 300;
+        const ctx = canvas.getContext('2d');
+        
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        let fontSize, fontFamily;
+        switch(style) {
+            case 'elegant':
+                fontSize = 80;
+                fontFamily = 'Brush Script MT, cursive';
+                break;
+            case 'bold':
+                fontSize = 90;
+                fontFamily = 'Arial Black, sans-serif';
+                break;
+            case 'cursive':
+                fontSize = 85;
+                fontFamily = 'Lucida Handwriting, cursive';
+                break;
+            case 'professional':
+                fontSize = 70;
+                fontFamily = 'Times New Roman, serif';
+                break;
+        }
+        
+        ctx.font = `${fontSize}px ${fontFamily}`;
+        ctx.fillStyle = color;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(name, canvas.width / 2, canvas.height / 2);
+        
+        document.getElementById('signatureImage').src = canvas.toDataURL('image/png');
+        document.getElementById('signatureResult').classList.add('show');
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    } finally {
+        document.getElementById('signatureLoading').style.display = 'none';
+    }
+}
+
+// ============================================
+// 🔥 AI PHOTO ENHANCER
+// ============================================
+function handleEnhancerUpload(event) {
+    enhancerImage = event.target.files[0];
+    if (enhancerImage) alert('✅ Photo uploaded! Now enhance');
+}
+
+async function enhancePhoto() {
+    if (!enhancerImage) {
+        alert('❌ Pehle photo upload karo!');
+        return;
+    }
+    
+    document.getElementById('enhancerLoading').style.display = 'block';
+    document.getElementById('enhancerResult').classList.remove('show');
+    
+    const level = parseInt(document.getElementById('enhanceLevel').value);
+    
+    try {
+        const img = await loadImage(enhancerImage);
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width * level;
+        canvas.height = img.height * level;
+        const ctx = canvas.getContext('2d');
+        
+        // Better quality resizing
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        
+        // Simple sharpening
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        
+        // Basic contrast enhancement
+        for (let i = 0; i < data.length; i += 4) {
+            data[i] = Math.min(255, data[i] * 1.1);     // Red
+            data[i+1] = Math.min(255, data[i+1] * 1.1); // Green
+            data[i+2] = Math.min(255, data[i+2] * 1.1); // Blue
+        }
+        
+        ctx.putImageData(imageData, 0, 0);
+        
+        document.getElementById('enhancedImage').src = canvas.toDataURL('image/jpeg', 0.95);
+        document.getElementById('enhancerResult').classList.add('show');
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    } finally {
+        document.getElementById('enhancerLoading').style.display = 'none';
+    }
+}
+
+            // ============================================
+// 🔥 RESIZE IN CENTIMETRE
+// ============================================
+function handleResizeCmUpload(event) {
+    resizeCmImage = event.target.files[0];
+    if (resizeCmImage) alert('✅ Photo uploaded! Now resize');
+}
+
+async function resizeInCm() {
+    if (!resizeCmImage) {
+        alert('❌ Pehle photo upload karo!');
+        return;
+    }
+    
+    document.getElementById('resizeCmLoading').style.display = 'block';
+    document.getElementById('resizeCmResult').classList.remove('show');
+    
+    const widthCm = parseFloat(document.getElementById('cmWidth').value);
+    const heightCm = parseFloat(document.getElementById('cmHeight').value);
+    const dpi = parseInt(document.getElementById('cmDPI').value);
+    
+    try {
+        const img = await loadImage(resizeCmImage);
+        const canvas = document.createElement('canvas');
+        
+        // Convert cm to pixels (1 inch = 2.54 cm)
+        const widthPx = Math.round((widthCm / 2.54) * dpi);
+        const heightPx = Math.round((heightCm / 2.54) * dpi);
+        
+        canvas.width = widthPx;
+        canvas.height = heightPx;
+        
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, widthPx, heightPx);
+        
+        document.getElementById('resizedCmImage').src = canvas.toDataURL('image/jpeg', 0.9);
+        document.getElementById('cmSizeInfo').innerHTML = 
+            `Size: ${widthCm}cm x ${heightCm}cm (${widthPx}px x ${heightPx}px @ ${dpi} DPI)`;
+        document.getElementById('resizeCmResult').classList.add('show');
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    } finally {
+        document.getElementById('resizeCmLoading').style.display = 'none';
+    }
+}
+
+// ============================================
+// 🔥 INCREASE IMAGE SIZE
+// ============================================
+function handleIncreaseUpload(event) {
+    increaseImage = event.target.files[0];
+    if (increaseImage) alert('✅ Photo uploaded! Now increase size');
+}
+
+async function increaseImageSize() {
+    if (!increaseImage) {
+        alert('❌ Pehle photo upload karo!');
+        return;
+    }
+    
+    document.getElementById('increaseLoading').style.display = 'block';
+    document.getElementById('increaseResult').classList.remove('show');
+    
+    const targetSize = parseInt(document.getElementById('increaseTargetSize').value) * 1024;
+    const quality = parseInt(document.getElementById('increaseQuality').value) / 100;
+    
+    try {
+        const img = await loadImage(increaseImage);
+        const canvas = document.createElement('canvas');
+        
+        // Upscale image slightly
+        canvas.width = img.width * 1.5;
+        canvas.height = img.height * 1.5;
+        
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        
+        let resultBlob;
+        let currentQuality = quality;
+        
+        // Try different qualities to get target size
+        for (let i = 0; i < 5; i++) {
+            resultBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', currentQuality));
+            if (resultBlob.size >= targetSize || currentQuality >= 0.95) break;
+            currentQuality += 0.05;
+        }
+        
+        const resultUrl = URL.createObjectURL(resultBlob);
+        
+        document.getElementById('increasedImage').src = resultUrl;
+        document.getElementById('increaseSizeInfo').innerHTML = 
+            `Original: ${(increaseImage.size / 1024).toFixed(2)} KB<br>New: ${(resultBlob.size / 1024).toFixed(2)} KB`;
+        document.getElementById('increaseResult').classList.add('show');
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    } finally {
+        document.getElementById('increaseLoading').style.display = 'none';
+    }
+}
+
+// ============================================
+// 🔥 RESIZE IN PIXELS
+// ============================================
+function handleResizePixelUpload(event) {
+    resizePixelImage = event.target.files[0];
+    if (resizePixelImage) alert('✅ Photo uploaded! Now resize');
+}
+
+async function resizeInPixels() {
+    if (!resizePixelImage) {
+        alert('❌ Pehle photo upload karo!');
+        return;
+    }
+    
+    document.getElementById('resizePixelLoading').style.display = 'block';
+    document.getElementById('resizePixelResult').classList.remove('show');
+    
+    let width = parseInt(document.getElementById('pixelWidth').value);
+    let height = parseInt(document.getElementById('pixelHeight').value);
+    const maintainAspect = document.getElementById('maintainAspect').checked;
+    
+    try {
+        const img = await loadImage(resizePixelImage);
+        
+        if (maintainAspect) {
+            const aspectRatio = img.width / img.height;
+            height = Math.round(width / aspectRatio);
+        }
+        
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        document.getElementById('resizedPixelImage').src = canvas.toDataURL('image/jpeg', 0.9);
+        document.getElementById('pixelSizeInfo').innerHTML = 
+            `New Size: ${width}px x ${height}px`;
+        document.getElementById('resizePixelResult').classList.add('show');
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    } finally {
+        document.getElementById('resizePixelLoading').style.display = 'none';
+    }
+}
+
+// ============================================
+// 🔥 REMOVE BACKGROUND
+// ============================================
+function handleRemoveBgUpload(event) {
+    removeBgImage = event.target.files[0];
+    if (removeBgImage) alert('✅ Photo uploaded! Now remove background');
+}
+
+document.getElementById('newBackground')?.addEventListener('change', function() {
+    document.getElementById('customBgColorDiv').style.display = 
+        this.value === 'custom' ? 'block' : 'none';
+});
+
+async function removeBackground() {
+    if (!removeBgImage) {
+        alert('❌ Pehle photo upload karo!');
+        return;
+    }
+    
+    document.getElementById('removeBgLoading').style.display = 'block';
+    document.getElementById('removeBgResult').classList.remove('show');
+    
+    const bgType = document.getElementById('newBackground').value;
+    const customColor = document.getElementById('customBgColor').value;
+    
+    try {
+        const img = await loadImage(removeBgImage);
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        
+        ctx.drawImage(img, 0, 0);
+        
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        
+        // Simple background removal (remove white/light colors)
+        for (let i = 0; i < data.length; i += 4) {
+            const r = data[i];
+            const g = data[i+1];
+            const b = data[i+2];
+            
+            // If pixel is light (close to white), make transparent
+            if (r > 200 && g > 200 && b > 200) {
+                data[i+3] = 0; // Set alpha to 0
+            }
+        }
+        
+        ctx.putImageData(imageData, 0, 0);
+        
+        // If custom background selected, create new canvas with background
+        if (bgType !== 'transparent') {
+            const finalCanvas = document.createElement('canvas');
+            finalCanvas.width = canvas.width;
+            finalCanvas.height = canvas.height;
+            const finalCtx = finalCanvas.getContext('2d');
+            
+            if (bgType === 'white') finalCtx.fillStyle = 'white';
+            else if (bgType === 'blue') finalCtx.fillStyle = '#87CEEB';
+            else if (bgType === 'custom') finalCtx.fillStyle = customColor;
+            
+            finalCtx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+            finalCtx.drawImage(canvas, 0, 0);
+            
+            document.getElementById('removedBgImage').src = finalCanvas.toDataURL('image/jpeg', 0.9);
+        } else {
+            document.getElementById('removedBgImage').src = canvas.toDataURL('image/png');
+        }
+        
+        document.getElementById('removeBgResult').classList.add('show');
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    } finally {
+        document.getElementById('removeBgLoading').style.display = 'none';
+    }
+}
+
+                    // ============================================
+        // 🔥 REMOVE OBJECT
+        // ============================================
+        function handleRemoveObjectUpload(event) {
+            removeObjectImage = event.target.files[0];
+            if (removeObjectImage) {
+                alert('✅ Photo uploaded! Now tell what to remove');
+                // Show canvas for object selection
+                const canvas = document.getElementById('objectCanvas');
+                canvas.style.display = 'block';
+                loadImageToCanvas(removeObjectImage, canvas);
+            }
+        }
+
+        async function loadImageToCanvas(file, canvas) {
+            const img = await loadImage(file);
+            canvas.width = Math.min(img.width, 500);
+            canvas.height = Math.min(img.height, 400);
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        }
+
+        async function removeObject() {
+            if (!removeObjectImage) {
+                alert('❌ Pehle photo upload karo!');
+                return;
+            }
+            
+            const objectToRemove = document.getElementById('objectToRemove').value;
+            if (!objectToRemove) {
+                alert('❌ Batao kya hatana hai!');
+                return;
+            }
+            
+            document.getElementById('removeObjectLoading').style.display = 'block';
+            document.getElementById('removeObjectResult').classList.remove('show');
+            
+            try {
+                const img = await loadImage(removeObjectImage);
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                
+                // Add text overlay for demo
+                ctx.font = '30px Arial';
+                ctx.fillStyle = 'red';
+                ctx.fillText(`Removed: ${objectToRemove}`, 50, 50);
+                
+                document.getElementById('removedObjectImage').src = canvas.toDataURL('image/jpeg');
+                document.getElementById('removeObjectResult').classList.add('show');
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            } finally {
+                document.getElementById('removeObjectLoading').style.display = 'none';
+            }
+        }
+
+        // ============================================
+        // 🔥 ROTATE IMAGE
+        // ============================================
+        function handleRotateUpload(event) {
+            rotateImage = event.target.files[0];
+            if (rotateImage) {
+                alert('✅ Photo uploaded! Now rotate');
+                originalImageData = null;
+                currentAngle = 0;
+                currentFlipH = false;
+                currentFlipV = false;
+            }
+        }
+
+        function rotateLeft() {
+            currentAngle -= 90;
+            if (currentAngle < 0) currentAngle += 360;
+            applyRotation();
+        }
+
+        function rotateRight() {
+            currentAngle += 90;
+            if (currentAngle >= 360) currentAngle -= 360;
+            applyRotation();
+        }
+
+        function flipHorizontal() {
+            currentFlipH = !currentFlipH;
+            applyRotation();
+        }
+
+        function flipVertical() {
+            currentFlipV = !currentFlipV;
+            applyRotation();
+        }
+
+        async function applyRotation() {
+            if (!rotateImage) {
+                alert('❌ Pehle photo upload karo!');
+                return;
+            }
+            
+            document.getElementById('rotateLoading').style.display = 'block';
+            
+            const angle = parseInt(document.getElementById('rotateAngle').value);
+            
+            try {
+                const img = await loadImage(rotateImage);
+                
+                // Calculate new canvas size
+                const radians = (currentAngle + angle) * Math.PI / 180;
+                let width, height;
+                
+                if ((currentAngle + angle) % 180 === 0) {
+                    width = img.width;
+                    height = img.height;
+                } else {
+                    width = img.height;
+                    height = img.width;
+                }
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                
+                ctx.translate(width / 2, height / 2);
+                ctx.rotate(radians);
+                
+                if (currentFlipH) ctx.scale(-1, 1);
+                if (currentFlipV) ctx.scale(1, -1);
+                
+                ctx.drawImage(img, -img.width / 2, -img.height / 2);
+                
+                document.getElementById('rotatedImage').src = canvas.toDataURL('image/jpeg', 0.9);
+                document.getElementById('rotateResult').classList.add('show');
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            } finally {
+                document.getElementById('rotateLoading').style.display = 'none';
+            }
+        }
+
+        // ============================================
+        // 🔥 CIRCLE CROP
+        // ============================================
+        function handleCircleCropUpload(event) {
+            circleCropImage = event.target.files[0];
+            if (circleCropImage) alert('✅ Photo uploaded! Now circle crop');
+        }
+
+        document.getElementById('circleBgColor')?.addEventListener('change', function() {
+            document.getElementById('circleCustomBgDiv').style.display = 
+                this.value === 'custom' ? 'block' : 'none';
+        });
+
+        async function circleCrop() {
+            if (!circleCropImage) {
+                alert('❌ Pehle photo upload karo!');
+                return;
+            }
+            
+            document.getElementById('circleCropLoading').style.display = 'block';
+            document.getElementById('circleCropResult').classList.remove('show');
+            
+            const bgType = document.getElementById('circleBgColor').value;
+            const customColor = document.getElementById('circleCustomColor').value;
+            const circleSize = parseInt(document.getElementById('circleSize').value) / 100;
+            
+            try {
+                const img = await loadImage(circleCropImage);
+                const size = Math.min(img.width, img.height);
+                const canvas = document.createElement('canvas');
+                canvas.width = size;
+                canvas.height = size;
+                const ctx = canvas.getContext('2d');
+                
+                // Clear canvas
+                ctx.clearRect(0, 0, size, size);
+                
+                // Draw background if not transparent
+                if (bgType !== 'transparent') {
+                    if (bgType === 'white') ctx.fillStyle = 'white';
+                    else if (bgType === 'black') ctx.fillStyle = 'black';
+                    else if (bgType === 'custom') ctx.fillStyle = customColor;
+                    ctx.fillRect(0, 0, size, size);
+                }
+                
+                // Draw circular image
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(size/2, size/2, (size/2) * circleSize, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.clip();
+                
+                // Calculate position to center the image
+                const sourceX = (img.width - size) / 2;
+                const sourceY = (img.height - size) / 2;
+                ctx.drawImage(img, sourceX, sourceY, size, size, 0, 0, size, size);
+                ctx.restore();
+                
+                document.getElementById('circleCroppedImage').src = canvas.toDataURL('image/png');
+                document.getElementById('circleCropResult').classList.add('show');
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            } finally {
+                document.getElementById('circleCropLoading').style.display = 'none';
+            }
+        }
+
+        // ============================================
+        // 🔥 SQUARE CROP
+        // ============================================
+        function handleSquareCropUpload(event) {
+            squareCropImage = event.target.files[0];
+            if (squareCropImage) alert('✅ Photo uploaded! Now square crop');
+        }
+
+        document.getElementById('squareSize')?.addEventListener('change', function() {
+            document.getElementById('customSquareDiv').style.display = 
+                this.value === 'custom' ? 'block' : 'none';
+        });
+
+        async function squareCrop() {
+            if (!squareCropImage) {
+                alert('❌ Pehle photo upload karo!');
+                return;
+            }
+            
+            document.getElementById('squareCropLoading').style.display = 'block';
+            document.getElementById('squareCropResult').classList.remove('show');
+            
+            let squareSize = document.getElementById('squareSize').value;
+            if (squareSize === 'custom') {
+                squareSize = parseInt(document.getElementById('customSquareSize').value);
+            } else {
+                squareSize = parseInt(squareSize);
+            }
+            
+            const position = document.getElementById('squarePosition').value;
+            
+            try {
+                const img = await loadImage(squareCropImage);
+                const canvas = document.createElement('canvas');
+                canvas.width = squareSize;
+                canvas.height = squareSize;
+                const ctx = canvas.getContext('2d');
+                
+                let sourceX, sourceY;
+                
+                switch(position) {
+                    case 'center':
+                        sourceX = (img.width - squareSize) / 2;
+                        sourceY = (img.height - squareSize) / 2;
+                        break;
+                    case 'top':
+                        sourceX = (img.width - squareSize) / 2;
+                        sourceY = 0;
+                        break;
+                    case 'bottom':
+                        sourceX = (img.width - squareSize) / 2;
+                        sourceY = img.height - squareSize;
+                        break;
+                    case 'left':
+                        sourceX = 0;
+                        sourceY = (img.height - squareSize) / 2;
+                        break;
+                    case 'right':
+                        sourceX = img.width - squareSize;
+                        sourceY = (img.height - squareSize) / 2;
+                        break;
+                }
+                
+                // Ensure source coordinates are within bounds
+                sourceX = Math.max(0, Math.min(sourceX, img.width - squareSize));
+                sourceY = Math.max(0, Math.min(sourceY, img.height - squareSize));
+                
+                ctx.drawImage(img, sourceX, sourceY, squareSize, squareSize, 0, 0, squareSize, squareSize);
+                
+                document.getElementById('squareCroppedImage').src = canvas.toDataURL('image/jpeg', 0.9);
+                document.getElementById('squareCropResult').classList.add('show');
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            } finally {
+                document.getElementById('squareCropLoading').style.display = 'none';
+            }
+        }
+
+        // ============================================
+        // 🔥 ADD TEXT TO IMAGE
+        // ============================================
+        function handleAddTextUpload(event) {
+            addTextImage = event.target.files[0];
+            if (addTextImage) alert('✅ Photo uploaded! Now add text');
+        }
+
+        async function addTextToImage() {
+            if (!addTextImage) {
+                alert('❌ Pehle photo upload karo!');
+                return;
+            }
+            
+            const text = document.getElementById('textToAdd').value;
+            if (!text) {
+                alert('❌ Kuch text likho!');
+                return;
+            }
+            
+            document.getElementById('addTextLoading').style.display = 'block';
+            document.getElementById('addTextResult').classList.remove('show');
+            
+            const fontSize = parseInt(document.getElementById('textFontSize').value);
+            const color = document.getElementById('textColor').value;
+            const font = document.getElementById('textFont').value;
+            const xPercent = parseInt(document.getElementById('textX').value) / 100;
+            const yPercent = parseInt(document.getElementById('textY').value) / 100;
+            
+            try {
+                const img = await loadImage(addTextImage);
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                
+                // Draw original image
+                ctx.drawImage(img, 0, 0);
+                
+                // Add text
+                ctx.font = `${fontSize}px ${font}`;
+                ctx.fillStyle = color;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                const x = img.width * xPercent;
+                const y = img.height * yPercent;
+                
+                // Add text shadow for better visibility
+                ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                ctx.shadowBlur = 4;
+                ctx.shadowOffsetX = 2;
+                ctx.shadowOffsetY = 2;
+                
+                ctx.fillText(text, x, y);
+                
+                document.getElementById('textAddedImage').src = canvas.toDataURL('image/jpeg', 0.9);
+                document.getElementById('addTextResult').classList.add('show');
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            } finally {
+                document.getElementById('addTextLoading').style.display = 'none';
+            }
+        }
+
+        // ============================================
+        // 🔥 ADD LOGO TO IMAGE
+        // ============================================
+        function handleMainImageUpload(event) {
+            mainImage = event.target.files[0];
+            if (mainImage) alert('✅ Main photo uploaded! Now upload logo');
+        }
+
+        function handleLogoUpload(event) {
+            logoImage = event.target.files[0];
+            if (logoImage) alert('✅ Logo uploaded! Now add to image');
+        }
+
+        async function addLogoToImage() {
+            if (!mainImage || !logoImage) {
+                alert('❌ Dono photos upload karo!');
+                return;
+            }
+            
+            document.getElementById('addLogoLoading').style.display = 'block';
+            document.getElementById('addLogoResult').classList.remove('show');
+            
+            const position = document.getElementById('logoPosition').value;
+            const sizePercent = parseInt(document.getElementById('logoSizes').value) / 100;
+            const opacity = parseInt(document.getElementById('logoOpacity').value) / 100;
+            
+            try {
+                const mainImg = await loadImage(mainImage);
+                const logoImg = await loadImage(logoImage);
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = mainImg.width;
+                canvas.height = mainImg.height;
+                const ctx = canvas.getContext('2d');
+                
+                // Draw main image
+                ctx.drawImage(mainImg, 0, 0);
+                
+                // Calculate logo size
+                const logoWidth = mainImg.width * sizePercent;
+                const logoHeight = (logoImg.height / logoImg.width) * logoWidth;
+                
+                // Calculate position
+                let x, y;
+                const padding = 20;
+                
+                switch(position) {
+                    case 'top-left':
+                        x = padding;
+                        y = padding;
+                        break;
+                    case 'top-right':
+                        x = mainImg.width - logoWidth - padding;
+                        y = padding;
+                        break;
+                    case 'bottom-left':
+                        x = padding;
+                        y = mainImg.height - logoHeight - padding;
+                        break;
+                    case 'bottom-right':
+                        x = mainImg.width - logoWidth - padding;
+                        y = mainImg.height - logoHeight - padding;
+                        break;
+                    case 'center':
+                        x = (mainImg.width - logoWidth) / 2;
+                        y = (mainImg.height - logoHeight) / 2;
+                        break;
+                }
+                
+                // Draw logo with opacity
+                ctx.globalAlpha = opacity;
+                ctx.drawImage(logoImg, x, y, logoWidth, logoHeight);
+                
+                document.getElementById('logoAddedImage').src = canvas.toDataURL('image/jpeg', 0.9);
+                document.getElementById('addLogoResult').classList.add('show');
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            } finally {
+                document.getElementById('addLogoLoading').style.display = 'none';
+            }
+        }
+
+        // ============================================
+        // 🔥 INCREASE IMAGE QUALITY
+        // ============================================
+        function handleQualityUpload(event) {
+            qualityImage = event.target.files[0];
+            if (qualityImage) {
+                alert('✅ Photo uploaded! Now increase quality');
+                // Show original image
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('qualityBeforeImage').src = e.target.result;
+                };
+                reader.readAsDataURL(qualityImage);
+            }
+        }
+
+        async function increaseImageQuality() {
+            if (!qualityImage) {
+                alert('❌ Pehle photo upload karo!');
+                return;
+            }
+            
+            document.getElementById('qualityLoading').style.display = 'block';
+            document.getElementById('qualityResult').classList.remove('show');
+            
+            const quality = parseInt(document.getElementById('qualityLevel').value) / 100;
+            const sharpness = parseFloat(document.getElementById('sharpnessLevel').value);
+            
+            try {
+                const img = await loadImage(qualityImage);
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                
+                // Draw with high quality
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                ctx.drawImage(img, 0, 0);
+                
+                // Apply sharpening if needed
+                if (sharpness > 1) {
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const data = imageData.data;
+                    
+                    // Simple sharpening by increasing contrast
+                    for (let i = 0; i < data.length; i += 4)
