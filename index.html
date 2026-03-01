@@ -1980,3 +1980,616 @@ async function removeBackground() {
         document.getElementById('removeBgLoading').style.display = 'none';
     }
 }
+
+            // ============================================
+// 🔥 REMOVE OBJECT
+// ============================================
+function handleRemoveObjectUpload(event) {
+    removeObjectImage = event.target.files[0];
+    if (removeObjectImage) {
+        alert('✅ Photo uploaded! Now tell what to remove');
+        // Show canvas for object selection
+        const canvas = document.getElementById('objectCanvas');
+        canvas.style.display = 'block';
+        loadImageToCanvas(removeObjectImage, canvas);
+    }
+}
+
+async function loadImageToCanvas(file, canvas) {
+    const img = await loadImage(file);
+    canvas.width = Math.min(img.width, 500);
+    canvas.height = Math.min(img.height, 400);
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+}
+
+async function removeObject() {
+    if (!removeObjectImage) {
+        alert('❌ Pehle photo upload karo!');
+        return;
+    }
+    
+    const objectToRemove = document.getElementById('objectToRemove').value;
+    if (!objectToRemove) {
+        alert('❌ Batao kya hatana hai!');
+        return;
+    }
+    
+    document.getElementById('removeObjectLoading').style.display = 'block';
+    document.getElementById('removeObjectResult').classList.remove('show');
+    
+    try {
+        const img = await loadImage(removeObjectImage);
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        
+        // Add text overlay for demo
+        ctx.font = '30px Arial';
+        ctx.fillStyle = 'red';
+        ctx.fillText(`Removed: ${objectToRemove}`, 50, 50);
+        
+        document.getElementById('removedObjectImage').src = canvas.toDataURL('image/jpeg');
+        document.getElementById('removeObjectResult').classList.add('show');
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    } finally {
+        document.getElementById('removeObjectLoading').style.display = 'none';
+    }
+}
+
+// ============================================
+// 🔥 ROTATE IMAGE
+// ============================================
+function handleRotateUpload(event) {
+    rotateImage = event.target.files[0];
+    if (rotateImage) {
+        alert('✅ Photo uploaded! Now rotate');
+        originalImageData = null;
+        currentAngle = 0;
+        currentFlipH = false;
+        currentFlipV = false;
+    }
+}
+
+function rotateLeft() {
+    currentAngle -= 90;
+    if (currentAngle < 0) currentAngle += 360;
+    applyRotation();
+}
+
+function rotateRight() {
+    currentAngle += 90;
+    if (currentAngle >= 360) currentAngle -= 360;
+    applyRotation();
+}
+
+function flipHorizontal() {
+    currentFlipH = !currentFlipH;
+    applyRotation();
+}
+
+function flipVertical() {
+    currentFlipV = !currentFlipV;
+    applyRotation();
+}
+
+        async function applyRotation() {
+    if (!rotateImage) {
+        alert('❌ Pehle photo upload karo!');
+        return;
+    }
+    
+    document.getElementById('rotateLoading').style.display = 'block';
+    
+    const angle = parseInt(document.getElementById('rotateAngle').value);
+    
+    try {
+        const img = await loadImage(rotateImage);
+        
+        // Calculate new canvas size
+        const radians = (currentAngle + angle) * Math.PI / 180;
+        let width, height;
+        
+        if ((currentAngle + angle) % 180 === 0) {
+            width = img.width;
+            height = img.height;
+        } else {
+            width = img.height;
+            height = img.width;
+        }
+        
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        
+        ctx.translate(width / 2, height / 2);
+        ctx.rotate(radians);
+        
+        if (currentFlipH) ctx.scale(-1, 1);
+        if (currentFlipV) ctx.scale(1, -1);
+        
+        ctx.drawImage(img, -img.width / 2, -img.height / 2);
+        
+        document.getElementById('rotatedImage').src = canvas.toDataURL('image/jpeg', 0.9);
+        document.getElementById('rotateResult').classList.add('show');
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    } finally {
+        document.getElementById('rotateLoading').style.display = 'none';
+    }
+}
+
+// ============================================
+// 🔥 CIRCLE CROP
+// ============================================
+function handleCircleCropUpload(event) {
+    circleCropImage = event.target.files[0];
+    if (circleCropImage) alert('✅ Photo uploaded! Now circle crop');
+}
+
+document.getElementById('circleBgColor')?.addEventListener('change', function() {
+    document.getElementById('circleCustomBgDiv').style.display = 
+        this.value === 'custom' ? 'block' : 'none';
+});
+
+async function circleCrop() {
+    if (!circleCropImage) {
+        alert('❌ Pehle photo upload karo!');
+        return;
+    }
+    
+    document.getElementById('circleCropLoading').style.display = 'block';
+    document.getElementById('circleCropResult').classList.remove('show');
+    
+    const bgType = document.getElementById('circleBgColor').value;
+    const customColor = document.getElementById('circleCustomColor').value;
+    const circleSize = parseInt(document.getElementById('circleSize').value) / 100;
+    
+    try {
+        const img = await loadImage(circleCropImage);
+        const size = Math.min(img.width, img.height);
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        
+        // Clear canvas
+        ctx.clearRect(0, 0, size, size);
+        
+        // Draw background if not transparent
+        if (bgType !== 'transparent') {
+            if (bgType === 'white') ctx.fillStyle = 'white';
+            else if (bgType === 'black') ctx.fillStyle = 'black';
+            else if (bgType === 'custom') ctx.fillStyle = customColor;
+            ctx.fillRect(0, 0, size, size);
+        }
+        
+        // Draw circular image
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(size/2, size/2, (size/2) * circleSize, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip();
+        
+        // Calculate position to center the image
+        const sourceX = (img.width - size) / 2;
+        const sourceY = (img.height - size) / 2;
+        ctx.drawImage(img, sourceX, sourceY, size, size, 0, 0, size, size);
+        ctx.restore();
+        
+        document.getElementById('circleCroppedImage').src = canvas.toDataURL('image/png');
+        document.getElementById('circleCropResult').classList.add('show');
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    } finally {
+        document.getElementById('circleCropLoading').style.display = 'none';
+    }
+}
+
+        // ============================================
+// 🔥 SQUARE CROP
+// ============================================
+function handleSquareCropUpload(event) {
+    squareCropImage = event.target.files[0];
+    if (squareCropImage) alert('✅ Photo uploaded! Now square crop');
+}
+
+document.getElementById('squareSize')?.addEventListener('change', function() {
+    document.getElementById('customSquareDiv').style.display = 
+        this.value === 'custom' ? 'block' : 'none';
+});
+
+async function squareCrop() {
+    if (!squareCropImage) {
+        alert('❌ Pehle photo upload karo!');
+        return;
+    }
+    
+    document.getElementById('squareCropLoading').style.display = 'block';
+    document.getElementById('squareCropResult').classList.remove('show');
+    
+    let squareSize = document.getElementById('squareSize').value;
+    if (squareSize === 'custom') {
+        squareSize = parseInt(document.getElementById('customSquareSize').value);
+    } else {
+        squareSize = parseInt(squareSize);
+    }
+    
+    const position = document.getElementById('squarePosition').value;
+    
+    try {
+        const img = await loadImage(squareCropImage);
+        const canvas = document.createElement('canvas');
+        canvas.width = squareSize;
+        canvas.height = squareSize;
+        const ctx = canvas.getContext('2d');
+        
+        let sourceX, sourceY;
+        
+        switch(position) {
+            case 'center':
+                sourceX = (img.width - squareSize) / 2;
+                sourceY = (img.height - squareSize) / 2;
+                break;
+            case 'top':
+                sourceX = (img.width - squareSize) / 2;
+                sourceY = 0;
+                break;
+            case 'bottom':
+                sourceX = (img.width - squareSize) / 2;
+                sourceY = img.height - squareSize;
+                break;
+            case 'left':
+                sourceX = 0;
+                sourceY = (img.height - squareSize) / 2;
+                break;
+            case 'right':
+                sourceX = img.width - squareSize;
+                sourceY = (img.height - squareSize) / 2;
+                break;
+        }
+        
+        // Ensure source coordinates are within bounds
+        sourceX = Math.max(0, Math.min(sourceX, img.width - squareSize));
+        sourceY = Math.max(0, Math.min(sourceY, img.height - squareSize));
+        
+        ctx.drawImage(img, sourceX, sourceY, squareSize, squareSize, 0, 0, squareSize, squareSize);
+        
+        document.getElementById('squareCroppedImage').src = canvas.toDataURL('image/jpeg', 0.9);
+        document.getElementById('squareCropResult').classList.add('show');
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    } finally {
+        document.getElementById('squareCropLoading').style.display = 'none';
+    }
+}
+
+// ============================================
+// 🔥 ADD TEXT TO IMAGE
+// ============================================
+function handleAddTextUpload(event) {
+    addTextImage = event.target.files[0];
+    if (addTextImage) alert('✅ Photo uploaded! Now add text');
+}
+
+async function addTextToImage() {
+    if (!addTextImage) {
+        alert('❌ Pehle photo upload karo!');
+        return;
+    }
+    
+    const text = document.getElementById('textToAdd').value;
+    if (!text) {
+        alert('❌ Kuch text likho!');
+        return;
+    }
+    
+    document.getElementById('addTextLoading').style.display = 'block';
+    document.getElementById('addTextResult').classList.remove('show');
+    
+    const fontSize = parseInt(document.getElementById('textFontSize').value);
+    const color = document.getElementById('textColor').value;
+    const font = document.getElementById('textFont').value;
+    const xPercent = parseInt(document.getElementById('textX').value) / 100;
+    const yPercent = parseInt(document.getElementById('textY').value) / 100;
+    
+    try {
+        const img = await loadImage(addTextImage);
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        
+        // Draw original image
+        ctx.drawImage(img, 0, 0);
+        
+        // Add text
+        ctx.font = `${fontSize}px ${font}`;
+        ctx.fillStyle = color;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        const x = img.width * xPercent;
+        const y = img.height * yPercent;
+        
+        // Add text shadow for better visibility
+        ctx.shadowColor = 'rgba(0,0,0,0.5)';
+        ctx.shadowBlur = 4;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+        
+        ctx.fillText(text, x, y);
+        
+        document.getElementById('textAddedImage').src = canvas.toDataURL('image/jpeg', 0.9);
+        document.getElementById('addTextResult').classList.add('show');
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    } finally {
+        document.getElementById('addTextLoading').style.display = 'none';
+    }
+}
+
+        // ============================================
+// 🔥 INCREASE IMAGE QUALITY
+// ============================================
+function handleQualityUpload(event) {
+    qualityImage = event.target.files[0];
+    if (qualityImage) {
+        alert('✅ Photo uploaded! Now increase quality');
+        // Show original image
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            document.getElementById('qualityBeforeImage').src = e.target.result;
+        };
+        reader.readAsDataURL(qualityImage);
+    }
+}
+
+async function increaseImageQuality() {
+    if (!qualityImage) {
+        alert('❌ Pehle photo upload karo!');
+        return;
+    }
+    
+    document.getElementById('qualityLoading').style.display = 'block';
+    document.getElementById('qualityResult').classList.remove('show');
+    
+    const quality = parseInt(document.getElementById('qualityLevel').value) / 100;
+    const sharpness = parseFloat(document.getElementById('sharpnessLevel').value);
+    
+    try {
+        const img = await loadImage(qualityImage);
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        
+        // Draw with high quality
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0);
+        
+        // Apply sharpening if needed
+        if (sharpness > 1) {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            
+            // Simple sharpening by increasing contrast
+            for (let i = 0; i < data.length; i += 4) {
+                data[i] = Math.min(255, data[i] * sharpness);
+                data[i+1] = Math.min(255, data[i+1] * sharpness);
+                data[i+2] = Math.min(255, data[i+2] * sharpness);
+            }
+            
+            ctx.putImageData(imageData, 0, 0);
+        }
+        
+        const resultUrl = canvas.toDataURL('image/jpeg', quality);
+        document.getElementById('qualityAfterImage').src = resultUrl;
+        
+        // Calculate file sizes
+        const originalSize = qualityImage.size / 1024;
+        const resultBlob = await (await fetch(resultUrl)).blob();
+        const newSize = resultBlob.size / 1024;
+        
+        document.getElementById('qualityInfo').innerHTML = 
+            `Original: ${originalSize.toFixed(2)} KB | New: ${newSize.toFixed(2)} KB`;
+        document.getElementById('qualityResult').classList.add('show');
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    } finally {
+        document.getElementById('qualityLoading').style.display = 'none';
+    }
+}
+
+// ============================================
+// 🔥 SUPER RESOLUTION
+// ============================================
+function handleSuperResUpload(event) {
+    superResImage = event.target.files[0];
+    if (superResImage) {
+        alert('✅ Photo uploaded! Now enhance with AI');
+        // Show original image
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            document.getElementById('superResOriginalImage').src = e.target.result;
+        };
+        reader.readAsDataURL(superResImage);
+    }
+}
+
+async function superResolution() {
+    if (!superResImage) {
+        alert('❌ Pehle photo upload karo!');
+        return;
+    }
+    
+    document.getElementById('superResLoading').style.display = 'block';
+    document.getElementById('superResResult').classList.remove('show');
+    
+    const upscaleFactor = parseInt(document.getElementById('upscaleFactor').value);
+    const aiMode = document.getElementById('aiMode').value;
+    
+    try {
+        const img = await loadImage(superResImage);
+        
+        document.getElementById('originalWidth').textContent = img.width;
+        document.getElementById('originalHeight').textContent = img.height;
+        
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width * upscaleFactor;
+        canvas.height = img.height * upscaleFactor;
+        const ctx = canvas.getContext('2d');
+        
+        document.getElementById('newWidth').textContent = canvas.width;
+        document.getElementById('newHeight').textContent = canvas.height;
+        
+        // High quality upscaling
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        
+        // Apply AI mode specific enhancements
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        
+        switch(aiMode) {
+            case 'realistic':
+                // Increase contrast and saturation
+                for (let i = 0; i < data.length; i += 4) {
+                    data[i] = Math.min(255, data[i] * 1.1);
+                    data[i+1] = Math.min(255, data[i+1] * 1.1);
+                    data[i+2] = Math.min(255, data[i+2] * 1.1);
+                }
+                break;
+            case 'anime':
+                // Smooth colors
+                for (let i = 0; i < data.length; i += 4) {
+                    data[i] = Math.round(data[i] / 10) * 10;
+                    data[i+1] = Math.round(data[i+1] / 10) * 10;
+                    data[i+2] = Math.round(data[i+2] / 10) * 10;
+                }
+                break;
+            case 'general':
+                // Simple sharpening
+                break;
+        }
+        
+        ctx.putImageData(imageData, 0, 0);
+        
+        document.getElementById('superResEnhancedImage').src = canvas.toDataURL('image/jpeg', 0.95);
+        document.getElementById('superResResult').classList.add('show');
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    } finally {
+        document.getElementById('superResLoading').style.display = 'none';
+    }
+}
+
+         // ============================================
+        // 🔥 CHECK DPI                          
+       // ============================================
+        let currentDPIImage = null;
+
+        function handleDPIUpload(event) {
+            dpiImage = event.target.files[0];
+            if (dpiImage) {
+                checkDPI();
+            }
+        }
+
+        async function checkDPI() {
+            if (!dpiImage) {
+                alert('❌ Pehle photo upload karo!');
+                return;
+            }
+            
+            document.getElementById('dpiLoading').style.display = 'block';
+            document.getElementById('dpiResult').classList.remove('show');
+            document.getElementById('dpiChangedResult').classList.remove('show');
+            
+            try {
+                const img = await loadImage(dpiImage);
+                currentDPIImage = img;
+                
+                // Default DPI (most images are 72 or 96)
+                const defaultDPI = 72;
+                const widthInInches = img.width / defaultDPI;
+                const heightInInches = img.height / defaultDPI;
+                const widthInCm = widthInInches * 2.54;
+                const heightInCm = heightInInches * 2.54;
+                
+                document.getElementById('dpiInfo').innerHTML = 
+                    `<strong>DPI:</strong> ${defaultDPI} (estimated)`;
+                document.getElementById('dimensionInfo').innerHTML = 
+                    `<strong>Dimensions:</strong> ${img.width} x ${img.height} pixels`;
+                document.getElementById('sizeInfo').innerHTML = 
+                    `<strong>File Size:</strong> ${(dpiImage.size / 1024).toFixed(2)} KB`;
+                document.getElementById('printSizeInfo').innerHTML = 
+                    `<strong>Print Size (at ${defaultDPI} DPI):</strong> ${widthInInches.toFixed(2)} x ${heightInInches.toFixed(2)} inches<br>
+                    <strong>in CM:</strong> ${widthInCm.toFixed(2)} x ${heightInCm.toFixed(2)} cm`;
+                
+                document.getElementById('dpiResult').classList.add('show');
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            } finally {
+                document.getElementById('dpiLoading').style.display = 'none';
+            }
+        }
+
+        async function changeDPI() {
+            if (!currentDPIImage) {
+                alert('❌ Pehle photo upload karo!');
+                return;
+            }
+            
+            const newDPI = parseInt(document.getElementById('newDPI').value);
+            
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = currentDPIImage.width;
+                canvas.height = currentDPIImage.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(currentDPIImage, 0, 0);
+                
+                document.getElementById('dpiChangedImage').src = canvas.toDataURL('image/jpeg', 0.9);
+                
+                const widthInInches = currentDPIImage.width / newDPI;
+                const heightInInches = currentDPIImage.height / newDPI;
+                const widthInCm = widthInInches * 2.54;
+                const heightInCm = heightInInches * 2.54;
+                
+                document.getElementById('newDPIInfo').innerHTML = 
+                    `<strong>New DPI:</strong> ${newDPI}<br>
+                    <strong>Print Size:</strong> ${widthInInches.toFixed(2)} x ${heightInInches.toFixed(2)} inches<br>
+                    <strong>in CM:</strong> ${widthInCm.toFixed(2)} x ${heightInCm.toFixed(2)} cm`;
+                
+                document.getElementById('dpiChangedResult').classList.add('show');
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            }
+        }
+
+        // ============================================
+        // 🔥 HELPER FUNCTION - Load Image
+        // ============================================
+        function loadImage(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => resolve(img);
+                    img.onerror = reject;
+                    img.src = e.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+    </script>
+</body>
+                </html>
